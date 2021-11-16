@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+autonumber
+
+
+{start} User1 -> Server : initiate Fight
+
+loop max 100 times
+Server -> User1Deck : getCard
+Server -> User2Deck : getCard
+alt User1 wins
+Server -> User2Deck : grabCard
+Server --> User1Deck : giveCard
+else User2 wins
+Server -> User1Deck : grabCard
+Server -> User2Deck : giveCard
+else Fight ends in draw
+Server -> User1Deck : Draw
+Server -> User2Deck : Draw
+end
+end
+
+{end} User2 -> User1 : fight ends
+Server --> User1 : fightResults
+Server --> User2 : fightResults
+
+@enduml
