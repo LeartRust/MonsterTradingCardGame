@@ -11,7 +11,7 @@ public class Deck {
 
     public static List<Card> createDeck(User user){
         List<Card> deck;
-
+        //TODO What if 2 Cards same DMG?
         deck = user.getStack().stream()
                 .sorted(Comparator.comparingInt(Card::getDAMAGE).reversed())
                 .limit(4)

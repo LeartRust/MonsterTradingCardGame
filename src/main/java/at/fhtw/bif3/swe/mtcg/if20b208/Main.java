@@ -21,10 +21,7 @@ public class Main{
         System.out.println("________________________________");
         */
 
-        //leart.setDeck();
-        leart.setUsername("Leart");
-        leart.setPassword("12345678");
-        leart.setStack(Stack.fillStack());
+        BattleLogic.fight(leart, goku);
 
         //System.out.println(leart.toString() + " " + leart.getStack().size());
 
@@ -46,11 +43,14 @@ public class Main{
                 .collect(Collectors.toList())
                 .forEach(element -> System.out.println(element.getName() + " Dmg:" + element.getDAMAGE()));
 
+
+        //TODO User inputs (setUsername, startFight, chooseDeck....)
+        //TODO Create class for user inputs
         while(true){
             Scanner myObj = new Scanner(System.in);  // Create a Scanner object
             System.out.println("Enter username");
             String command = myObj.nextLine();  // Read user input
-            System.out.println("Comamand is: " + command);  // Output user input
+
             if(command.equals("quit")){
                 System.out.println("dasdasda");
                 break;
@@ -78,4 +78,5 @@ public class Main{
 
 
     }
+
 }
