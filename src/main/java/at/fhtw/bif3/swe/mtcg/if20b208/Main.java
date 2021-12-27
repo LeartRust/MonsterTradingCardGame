@@ -21,8 +21,9 @@ public class Main{
         System.out.println("________________________________");
         */
 
-        BattleLogic.fight(leart, goku);
-
+        //BattleLogic.fight(leart, goku);
+        BattleLogic battle = new BattleLogic(leart, goku);
+        battle.fight();
         //System.out.println(leart.toString() + " " + leart.getStack().size());
 
         leart.getStack().stream().forEach(element -> System.out.println(element.getName() + " Dmg:" + element.getDAMAGE()));
@@ -41,7 +42,7 @@ public class Main{
         goku.getDeck().stream()
                 .sorted(Comparator.comparingInt(Card::getDAMAGE).reversed())
                 .collect(Collectors.toList())
-                .forEach(element -> System.out.println(element.getName() + " Dmg:" + element.getDAMAGE()));
+                .forEach(element -> System.out.println(element));
 
 
         //TODO User inputs (setUsername, startFight, chooseDeck....)
