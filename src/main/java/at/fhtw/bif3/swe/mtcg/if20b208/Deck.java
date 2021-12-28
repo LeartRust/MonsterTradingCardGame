@@ -12,8 +12,9 @@ public class Deck {
     public static List<Card> createDeck(User user){
         List<Card> deck;
         //TODO What if 2 Cards same DMG?
+        //TODO User should be able to pick the cards he want to put in his deck by himself!!!!!!
         deck = user.getStack().stream()
-                .sorted(Comparator.comparingInt(Card::getDAMAGE).reversed())
+                .sorted(Comparator.comparingDouble(Card::getDAMAGE).reversed())
                 .limit(4)
                 .collect(Collectors.toList());
 

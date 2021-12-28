@@ -35,12 +35,12 @@ public class Main{
 
         System.out.println("Player1");
         leart.getDeck().stream()
-                .sorted(Comparator.comparingInt(Card::getDAMAGE).reversed())
+                .sorted(Comparator.comparingDouble(Card::getDAMAGE).reversed())
                 .collect(Collectors.toList())
                 .forEach(element -> System.out.println(element.getName() + " Dmg:" + element.getDAMAGE()));
         System.out.println("Player2");
         goku.getDeck().stream()
-                .sorted(Comparator.comparingInt(Card::getDAMAGE).reversed())
+                .sorted(Comparator.comparingDouble(Card::getDAMAGE).reversed())
                 .collect(Collectors.toList())
                 .forEach(element -> System.out.println(element));
 

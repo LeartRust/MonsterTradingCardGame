@@ -11,7 +11,7 @@ import lombok.ToString;
 public abstract class Card {
     private String name;
     private ElementType element;
-    private final int DAMAGE;
+    private final double DAMAGE;
 
     public Card(String name, ElementType element, final int DAMAGE){
         this.name = name;
