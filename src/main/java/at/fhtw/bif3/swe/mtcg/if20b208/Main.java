@@ -14,24 +14,13 @@ public class Main{
         leart.setDeck(Deck.createDeck(leart));
         User goku = new User("Son Goku", "12345678", Stack.fillStack());
         goku.setDeck(Deck.createDeck(goku));
-        //goku.setDeck(Deck.fillStack(goku.getStack()));
-        //Stack stack = new Stack(Stack.fillStack());
-        /*
-        System.out.println(stack.toString());
-        System.out.println("________________________________");
-        */
 
         //BattleLogic.fight(leart, goku);
         BattleLogic battle = new BattleLogic(leart, goku);
         battle.fight();
-        //System.out.println(leart.toString() + " " + leart.getStack().size());
 
         leart.getStack().stream().forEach(element -> System.out.println(element.getName() + " Dmg:" + element.getDAMAGE()));
         System.out.println("__________________");
-        /*leart.getStack().stream()
-                .sorted(Comparator.comparingInt(Card::getDAMAGE).reversed())
-                .collect(Collectors.toList())
-                .forEach(element -> System.out.println(element.getName() + " Dmg:" + element.getDAMAGE()));*/
 
         System.out.println("Player1");
         leart.getDeck().stream()
