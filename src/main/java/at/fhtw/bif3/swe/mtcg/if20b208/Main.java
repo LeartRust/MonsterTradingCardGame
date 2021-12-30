@@ -19,11 +19,23 @@ public class Main{
         leart.setDeck(Deck.createDeck(leart));
         User goku = new User("Son Goku", "12345678", Stack.fillStack());
         goku.setDeck(Deck.createDeck(goku));
-        leart.getHistory().add(new UserHistory("win", goku.getUsername()));
-        leart.getHistory().stream().forEach(element -> System.out.println(element.getMatchOutcome() + " " + element.getOpponent()));
+        leart.getHistory().add(new UserHistory("win", "TEST"));
+
         //BattleLogic.fight(leart, goku);
         BattleLogic battle = new BattleLogic(leart, goku);
         battle.fight();
+
+        System.out.println("HISTORY STATS BEGIN");
+        leart.getHistory().stream().forEach(element -> System.out.println(element.getMatchOutcome() + " " + element.getOpponent()));
+        System.out.println(leart.getEloPoints());
+        System.out.println(leart.getGamesPlayed());
+        System.out.println(leart.getWins());
+        System.out.println(leart.getLosses());
+        goku.getHistory().stream().forEach(element -> System.out.println(element.getMatchOutcome() + " " + element.getOpponent()));
+        System.out.println(goku.getEloPoints());
+        System.out.println(goku.getWins());
+        System.out.println(goku.getLosses());
+        System.out.println("HISTORY STATS END");
 
         leart.getStack().stream().forEach(element -> System.out.println(element.getName() + " Dmg:" + element.getDAMAGE()));
         System.out.println("__________________");

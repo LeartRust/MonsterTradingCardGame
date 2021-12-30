@@ -17,9 +17,9 @@ public class User {
     private List<Card> stack;
     private List<Card> deck = new ArrayList<>();
     private int eloPoints = 100;
-    private int gamesPlayed;
-    private int wins;
-    private int losses;
+    private int gamesPlayed = 0;
+    private int wins = 0;
+    private int losses = 0;
     private List<UserHistory> history = new ArrayList();
     //private Stack stack;
 

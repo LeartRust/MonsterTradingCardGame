@@ -3,6 +3,7 @@ package at.fhtw.bif3.swe.mtcg.if20b208;
 import at.fhtw.bif3.swe.mtcg.if20b208.cards.*;
 import at.fhtw.bif3.swe.mtcg.if20b208.user.Deck;
 import at.fhtw.bif3.swe.mtcg.if20b208.user.User;
+import at.fhtw.bif3.swe.mtcg.if20b208.user.UserHistory;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,7 +17,7 @@ public class BattleLogic {
         this.user1 = user1;
         this.user2 = user2;
     }
-    
+
     public void fight(){
 
         System.out.println("USER1 Cards");
@@ -47,10 +48,14 @@ public class BattleLogic {
                 }else if(user1.getDeck().size() == 0) {
                     System.out.println("User 2 Won");
                     System.out.println("User 2 Deck size: " + user2.getDeck().size());
+
+                    setStats(user2, user1);
+
                     break;
                 }else if(user2.getDeck().size() == 0){
                     System.out.println("User 1 Won");
                     System.out.println("User 1 Deck size: " + user1.getDeck().size());
+                    setStats(user1,user2);
                     break;
                 }
             }
@@ -202,5 +207,20 @@ public class BattleLogic {
     public void swapCards(User winner, User loser, Card card){
         winner.getDeck().add(card);
         loser.getDeck().remove(card);
+    }
+
+    public void setStats(User winner,User loser){
+
+            winner.getHistory().add(new UserHistory("win", loser.getUsername()));
+            winner.setEloPoints(loser.getEloPoints() + 3);
+            winner.setGamesPlayed(loser.getGamesPlayed()+1);
+            winner.setWins(loser.getWins() + 1);
+
+            loser.getHistory().add(new UserHistory("loss", winner.getUsername()));
+            loser.setEloPoints(loser.getEloPoints() - 5);
+            loser.setGamesPlayed(loser.getGamesPlayed()+1);
+            loser.setLosses(loser.getLosses() + 1);
+
+
     }
 }
