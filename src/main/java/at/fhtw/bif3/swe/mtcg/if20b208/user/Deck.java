@@ -1,7 +1,8 @@
-package at.fhtw.bif3.swe.mtcg.if20b208;
+package at.fhtw.bif3.swe.mtcg.if20b208.user;
 
 import at.fhtw.bif3.swe.mtcg.if20b208.cards.Card;
-import java.util.ArrayList;
+import at.fhtw.bif3.swe.mtcg.if20b208.user.User;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,5 +20,8 @@ public class Deck {
                 .collect(Collectors.toList());
 
         return deck;
+    }
+    public static void chooseDeck(User user){
+        System.out.println("CHOOSE DECK");
     }
 }

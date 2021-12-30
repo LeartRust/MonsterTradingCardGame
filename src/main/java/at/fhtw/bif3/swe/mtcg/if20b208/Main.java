@@ -1,6 +1,11 @@
 package at.fhtw.bif3.swe.mtcg.if20b208;
 
 import at.fhtw.bif3.swe.mtcg.if20b208.cards.Card;
+import at.fhtw.bif3.swe.mtcg.if20b208.user.Deck;
+import at.fhtw.bif3.swe.mtcg.if20b208.user.Stack;
+import at.fhtw.bif3.swe.mtcg.if20b208.user.User;
+import at.fhtw.bif3.swe.mtcg.if20b208.user.UserHistory;
+
 import java.util.Comparator;
 
 import java.util.Scanner;
@@ -14,7 +19,8 @@ public class Main{
         leart.setDeck(Deck.createDeck(leart));
         User goku = new User("Son Goku", "12345678", Stack.fillStack());
         goku.setDeck(Deck.createDeck(goku));
-
+        leart.getHistory().add(new UserHistory("win", goku.getUsername()));
+        leart.getHistory().stream().forEach(element -> System.out.println(element.getMatchOutcome() + " " + element.getOpponent()));
         //BattleLogic.fight(leart, goku);
         BattleLogic battle = new BattleLogic(leart, goku);
         battle.fight();
@@ -38,14 +44,26 @@ public class Main{
         //TODO Create class for user inputs
         while(true){
             Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-            System.out.println("Enter username");
+
+            System.out.println("You can use following commands:");
+            System.out.println("setProfile - creates a profile for you with your chosen username");
+            System.out.println("chooseDeck - lets you choose 4 cards for your deck");
+            System.out.println("quit - ends the app");
+
             String command = myObj.nextLine();  // Read user input
 
             if(command.equals("quit")){
-                System.out.println("dasdasda");
+                System.out.println("You pressed quit");
                 break;
-            }else if(command.equals("test")){
-                System.out.println("blab");
+            }else if(command.equals("setProfile")){
+                System.out.println("Type in your Username:");
+                String name = myObj.nextLine();  // Read user input
+                System.out.println("Choose a password:");
+                String password = myObj.nextLine();  // Read user input
+                User thisUser = new User(name, password, Stack.fillStack());
+            }
+            else if(command.equals("chooseDeck")){
+                //Deck.chooseDeck(thisUser);
             }else {
                 System.out.println("nothing");
             }

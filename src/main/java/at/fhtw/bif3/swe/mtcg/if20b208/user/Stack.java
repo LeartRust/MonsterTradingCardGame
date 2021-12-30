@@ -1,4 +1,4 @@
-package at.fhtw.bif3.swe.mtcg.if20b208;
+package at.fhtw.bif3.swe.mtcg.if20b208.user;
 
 import at.fhtw.bif3.swe.mtcg.if20b208.cards.*;
 import lombok.Data;
@@ -25,7 +25,7 @@ public class Stack {
         for(int i = 0; i<=9; i++){
             Random r = new Random();
             int low = 10;
-            int high = 100;
+            int high = 80;
             int damage = r.nextInt(high-low) + low;
             if(i % 2 == 0){
                 MonsterCard newCard = new MonsterCard("", ElementType.values()[new Random().nextInt(ElementType.values().length)], damage, MonsterType.values()[new Random().nextInt(MonsterType.values().length)]);

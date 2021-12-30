@@ -4,12 +4,11 @@ import at.fhtw.bif3.swe.mtcg.if20b208.cards.Card;
 import at.fhtw.bif3.swe.mtcg.if20b208.cards.ElementType;
 import at.fhtw.bif3.swe.mtcg.if20b208.cards.MonsterCard;
 import at.fhtw.bif3.swe.mtcg.if20b208.cards.SpellCard;
+import at.fhtw.bif3.swe.mtcg.if20b208.user.Deck;
+import at.fhtw.bif3.swe.mtcg.if20b208.user.User;
 
-import java.sql.SQLOutput;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BattleLogic {
