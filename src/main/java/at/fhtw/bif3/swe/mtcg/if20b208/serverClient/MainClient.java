@@ -32,6 +32,5 @@ public class MainClient {
         }
 
         System.out.println("close client");
-
     }
 }

@@ -1,6 +1,8 @@
 package at.fhtw.bif3.swe.mtcg.if20b208;
 
 import at.fhtw.bif3.swe.mtcg.if20b208.cards.Card;
+import at.fhtw.bif3.swe.mtcg.if20b208.database.MTCGDaoDb;
+import at.fhtw.bif3.swe.mtcg.if20b208.database.model.MTCGData;
 import at.fhtw.bif3.swe.mtcg.if20b208.user.Deck;
 import at.fhtw.bif3.swe.mtcg.if20b208.user.Stack;
 import at.fhtw.bif3.swe.mtcg.if20b208.user.User;
@@ -12,6 +14,8 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Main{
+    private static MTCGDaoDb dao;
+
     public static void main(String[] args) {
 
         //Stack stack = new Stack();
@@ -51,10 +55,21 @@ public class Main{
                 .collect(Collectors.toList())
                 .forEach(element -> System.out.println(element));
 
+        //MainClient newClient = new MainClient();
+        //newClient.start();
+
+        dao = new MTCGDaoDb();
+        MTCGDaoDb.initDb();
+        MTCGDaoDb daoDb = new MTCGDaoDb();
+        daoDb.save(new MTCGData(1,"leart","sadsdasd"));
+        daoDb.save(new MTCGData(2,"test1","sadsdasd"));
+        daoDb.save(new MTCGData(3,"Son Goku","sadsdasd"));
+
+        System.out.println(daoDb.get(1).get().getUserName());
 
         //TODO User inputs (setUsername, startFight, chooseDeck....)
         //TODO Create class for user inputs
-        while(true){
+        /*while(true){
             Scanner myObj = new Scanner(System.in);  // Create a Scanner object
 
             System.out.println("You can use following commands:");
@@ -80,7 +95,7 @@ public class Main{
                 System.out.println("nothing");
             }
         }
-
+*/
         //------------------------------------
 /*
         String string1 = "Leart";
