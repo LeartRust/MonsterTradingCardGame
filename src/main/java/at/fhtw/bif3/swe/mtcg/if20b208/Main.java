@@ -2,7 +2,7 @@ package at.fhtw.bif3.swe.mtcg.if20b208;
 
 import at.fhtw.bif3.swe.mtcg.if20b208.cards.Card;
 import at.fhtw.bif3.swe.mtcg.if20b208.database.MTCGDaoDb;
-import at.fhtw.bif3.swe.mtcg.if20b208.database.model.MTCGData;
+import at.fhtw.bif3.swe.mtcg.if20b208.database.model.UserData;
 import at.fhtw.bif3.swe.mtcg.if20b208.user.Deck;
 import at.fhtw.bif3.swe.mtcg.if20b208.user.Stack;
 import at.fhtw.bif3.swe.mtcg.if20b208.user.User;
@@ -10,6 +10,7 @@ import at.fhtw.bif3.swe.mtcg.if20b208.user.UserHistory;
 
 import java.util.Comparator;
 
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -61,19 +62,32 @@ public class Main{
         dao = new MTCGDaoDb();
         MTCGDaoDb.initDb();
         MTCGDaoDb daoDb = new MTCGDaoDb();
-        daoDb.save(new MTCGData(1,"leart","sadsdasd"));
-        daoDb.save(new MTCGData(2,"test1","sadsdasd"));
-        daoDb.save(new MTCGData(3,"Son Goku","sadsdasd"));
+        daoDb.saveUser(new UserData(1,"leart","sadsdasd",20,0,0,0,0));
+        daoDb.saveUser(new UserData(2,"test1","sadsdasd",20,0,0,0,0));
+        daoDb.saveUser(new UserData(3,"Son Goku","sadsdasd",20,0,0,0,0));
 
-        System.out.println(daoDb.get(1).get().getUserName());
+
+
+        //System.out.println(daoDb.getUser(1).get().getUserName());
+        UserData user1 = getPlayer(1);
+        daoDb.updateUser(user1, new String[] {"1","LeartR", "testpass"});
+
+
+        //System.out.println(daoDb.getUser(1).get().getUserName() + " " + daoDb.getUser(1).get().getPassword());
+
+        UserData user3 = getPlayer(3);
+        dao.deleteUser(user3);
+
+        dao.getAllUsers().forEach(item -> System.out.println(item));
 
         //TODO User inputs (setUsername, startFight, chooseDeck....)
         //TODO Create class for user inputs
-        /*while(true){
+        while(true){
             Scanner myObj = new Scanner(System.in);  // Create a Scanner object
 
             System.out.println("You can use following commands:");
-            System.out.println("setProfile - creates a profile for you with your chosen username");
+            System.out.println("register - creates a profile for you with your chosen username");
+            System.out.println("login - log in with your data");
             System.out.println("chooseDeck - lets you choose 4 cards for your deck");
             System.out.println("quit - ends the app");
 
@@ -95,7 +109,6 @@ public class Main{
                 System.out.println("nothing");
             }
         }
-*/
         //------------------------------------
 /*
         String string1 = "Leart";
@@ -113,5 +126,11 @@ public class Main{
 
 
     }
+/*    private static UserData getPlayer(int id) {
+        Optional<UserData> player = dao.getUser(id);
 
+        return player.orElseGet(
+                () -> new UserData()
+        );
+    }*/
 }

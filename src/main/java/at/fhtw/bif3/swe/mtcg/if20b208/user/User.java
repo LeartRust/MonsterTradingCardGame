@@ -13,7 +13,7 @@ import java.util.List;
 public class User {
     private String username;
     private String password;
-    private int coins = 20;
+    private int coins;
     private List<Card> stack;
     private List<Card> deck = new ArrayList<>();
     private int eloPoints = 100;

@@ -124,8 +124,6 @@ public class BattleLogic {
     }
 
     private boolean checkSpecialities(Card card1, Card card2, int user1DrawnCard, int user2DrawnCard){
-        System.out.println("COMPARE SPECIALITIES");
-
         if (card1 instanceof MonsterCard && card2 instanceof MonsterCard){
             //check if Goblin vs Dragon
             if (((MonsterCard) card1).getMonsterType().equals(MonsterType.GOBLIN) && ((MonsterCard) card2).getMonsterType().equals(MonsterType.DRAGON)){
@@ -199,7 +197,7 @@ public class BattleLogic {
 
     public void showWinner(User winner, int user1DrawnCard, int user2DrawnCard){
         System.out.println("Winner " + winner.getUsername());
-        System.out.println("Left Player:" + user1.getUsername() + " Right Player: " + user2.getUsername());
+        System.out.println("Player1: " + user1.getUsername() + " Player2: " + user2.getUsername());
         System.out.println("Name: " + user1.getDeck().get(user1DrawnCard).getName() + " vs Name: " + user2.getDeck().get(user2DrawnCard).getName());
         System.out.println("Damage: " + user1.getDeck().get(user1DrawnCard).getDAMAGE() + " vs Damage: " + user2.getDeck().get(user2DrawnCard).getDAMAGE());
     }

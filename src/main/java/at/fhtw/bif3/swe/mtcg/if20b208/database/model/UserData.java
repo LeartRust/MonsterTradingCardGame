@@ -14,18 +14,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class MTCGData implements Serializable {
+public class UserData implements Serializable {
 
         private Integer id;
         private String userName;
         private String password;
-/*        private Integer coins;
-        private List<Card> stack;
-        private List<Card> deck = new ArrayList<>();
+        private Integer coins;
         private Integer eloPoints;
         private Integer gamesPlayed;
         private Integer wins;
         private Integer losses;
+/*
+        private List<Card> stack;
+        private List<Card> deck = new ArrayList<>();
         private List<UserHistory> history = new ArrayList();*/
 
 }
