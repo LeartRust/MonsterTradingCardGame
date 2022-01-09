@@ -1,12 +1,16 @@
 package at.fhtw.bif3.swe.mtcg.if20b208.database;
 
+import at.fhtw.bif3.swe.mtcg.if20b208.cards.ElementType;
+import at.fhtw.bif3.swe.mtcg.if20b208.cards.MonsterType;
+import at.fhtw.bif3.swe.mtcg.if20b208.user.User;
+
 import java.util.Collection;
 import java.util.Optional;
 
-public interface Dao<T, M, S> {
+public interface Dao<T, C> {
 
     //User
-    Optional<T> getUser(int id);
+    User getUser(int id);
 
     Collection<T> getAllUsers();
 
@@ -16,25 +20,16 @@ public interface Dao<T, M, S> {
 
     void deleteUser(T t);
 
-    //Monster Cards
-    void getMonsterCard(M m);
+    //Cards
+    void getCard(C c);
 
-    void getAllMonsterCards(M m);
+    Collection<C> getAllCards();
 
-    void saveMonsterCard(M m);
+    void saveMonsterCard(C c);
 
-    void updateMonsterCard(M m, String[] params);
+    void updateMonsterCard(C c, String[] params);
 
-    void deleteMonsterCard(M m);
+    void deleteMonsterCard(C c);
 
-    //Spell Cards
-    void getSpellCard(S s);
 
-    void getAllSpellCards(S s);
-
-    void saveSpellCard(S s);
-
-    void updateSpellCard(S s, String[] params);
-
-    void deleteSpellCard(S s);
 }

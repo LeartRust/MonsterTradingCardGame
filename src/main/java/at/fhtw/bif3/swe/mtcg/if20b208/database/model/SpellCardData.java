@@ -16,7 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 
 public class SpellCardData implements Serializable {
+    private int id;
     private String name;
-    private ElementType element;
+    private String element;
     private double DAMAGE;
+    private int userId;
 }

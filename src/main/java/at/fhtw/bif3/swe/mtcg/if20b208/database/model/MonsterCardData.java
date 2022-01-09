@@ -17,8 +17,10 @@ import java.util.List;
 @AllArgsConstructor
 
 public class MonsterCardData implements Serializable {
+    private int id;
     private String name;
-    private ElementType element;
-    private MonsterType monsterType;
+    private String element;
+    private String monsterType;
     private double DAMAGE;
+    private int userId;
 }

@@ -8,14 +8,12 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-public abstract class Card {
+public class Card {
     private String name;
-    private ElementType element;
     private final double DAMAGE;
 
-    public Card(String name, ElementType element, final int DAMAGE){
+    public Card(String name, final int DAMAGE){
         this.name = name;
-        this.element = element;
         this.DAMAGE = DAMAGE;
     }
 }

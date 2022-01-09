@@ -1,5 +1,6 @@
 package at.fhtw.bif3.swe.mtcg.if20b208.database;
 
+import at.fhtw.bif3.swe.mtcg.if20b208.cards.*;
 import at.fhtw.bif3.swe.mtcg.if20b208.database.model.MonsterCardData;
 import at.fhtw.bif3.swe.mtcg.if20b208.database.model.SpellCardData;
 import at.fhtw.bif3.swe.mtcg.if20b208.database.model.UserData;
@@ -10,10 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class MTCGDaoDb implements Dao<UserData, MonsterCardData, SpellCardData>{
 
@@ -33,8 +31,8 @@ public class MTCGDaoDb implements Dao<UserData, MonsterCardData, SpellCardData>{
                     CREATE TABLE IF NOT EXISTS players (
                         
                         id INT PRIMARY KEY,
-                        userName VARCHAR(50) NOT NULL UNIQUE,
-                        password VARCHAR(50) NOT NULL,
+                        userName TEXT NOT NULL UNIQUE,
+                        password TEXT NOT NULL,
                         coins INT NOT NULL,
                         eloPoints INT NOT NULL,
                         gamesPlayed INT NOT NULL,
@@ -44,22 +42,24 @@ public class MTCGDaoDb implements Dao<UserData, MonsterCardData, SpellCardData>{
                     
                     CREATE TABLE IF NOT EXISTS monsterCards (
                         id INT PRIMARY KEY,
-                        name VARCHAR(50) NOT NULL,
-                        element VARCHAR(50) NOT NULL,
-                        monsterType VARCHAR(50) NOT NULL,
-                        damage int NOT NULL,
+                        name TEXT NOT NULL,
+                        element TEXT NOT NULL,
+                        monsterType TEXT NOT NULL,
+                        damage INT NOT NULL,
+                        user_id INT NOT NULL,
                         CONSTRAINT players
-                              FOREIGN KEY(id)
+                              FOREIGN KEY(user_id)
                         	  REFERENCES players(id) ON DELETE CASCADE
                     );
                     
                     CREATE TABLE IF NOT EXISTS spellCards(
                         id INT PRIMARY KEY,
-                        name VARCHAR(50) NOT NULL,
-                        element VARCHAR(50) NOT NULL,
-                        damage int NOT NULL,
-                           CONSTRAINT players
-                              FOREIGN KEY(id)
+                        name TEXT NOT NULL,
+                        element TEXT NOT NULL,
+                        damage INT NOT NULL,
+                        user_id INT NOT NULL,
+                        CONSTRAINT players
+                              FOREIGN KEY(user_id)
                         	  REFERENCES players(id) ON DELETE CASCADE
                     );
                     """);
@@ -71,6 +71,8 @@ public class MTCGDaoDb implements Dao<UserData, MonsterCardData, SpellCardData>{
 
     @Override
     public User getUser(int id) {
+        String userName = "", password = "";
+        int coins = 0, eloPoints = 0, gamesPlayed = 0, wins = 0, losses = 0;
         try ( PreparedStatement statement = DbConnection.getInstance().prepareStatement("""
                 SELECT id, userName, password, coins, eloPoints, gamesPlayed, wins, losses
                 FROM players
@@ -80,15 +82,18 @@ public class MTCGDaoDb implements Dao<UserData, MonsterCardData, SpellCardData>{
             statement.setInt( 1, id );
             ResultSet resultSet = statement.executeQuery();
             if( resultSet.next() ) {
-                User user = new User(
-                        "dasda", "dasda", Stack.fillStack()
-                );
-                return user;
+                userName = resultSet.getString(2);
+                password = resultSet.getString(3);
+                coins = resultSet.getInt(4);
+                eloPoints = resultSet.getInt(5);
+                gamesPlayed = resultSet.getInt(6);
+                wins = resultSet.getInt(7);
+                losses = resultSet.getInt(8);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return Optional.empty();
+        return new User(userName, password, coins, eloPoints, gamesPlayed, wins, losses);
     }
 
 
@@ -185,13 +190,48 @@ public class MTCGDaoDb implements Dao<UserData, MonsterCardData, SpellCardData>{
     }
 
     @Override
-    public void getAllMonsterCards(MonsterCardData monsterCardData) {
-
+    public Collection<MonsterCardData> getAllMonsterCards() {
+        ArrayList<MonsterCardData> result = new ArrayList<>();
+        try ( PreparedStatement statement = DbConnection.getInstance().prepareStatement("""
+                SELECT id, name, monsterType, element, damage, user_id
+                FROM monsterCards
+                """)
+        ) {
+            ResultSet resultSet = statement.executeQuery();
+            while( resultSet.next() ) {
+                result.add( new MonsterCardData(
+                        resultSet.getInt(1),
+                        resultSet.getString( 2 ),
+                        resultSet.getString( 3 ),
+                        resultSet.getString(4),
+                        resultSet.getInt(5),
+                        resultSet.getInt(6)
+                ) );
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
     }
 
     @Override
     public void saveMonsterCard(MonsterCardData monsterCardData) {
-
+        try ( PreparedStatement statement = DbConnection.getInstance().prepareStatement("""
+                INSERT INTO monsterCards
+                (id, name, monsterType, element, damage, user_id)
+                VALUES (?, ?, ?, ?, ?, ?);
+                """ )
+        ) {
+            statement.setInt( 1, monsterCardData.getId() );
+            statement.setString(2, monsterCardData.getName() );
+            statement.setString( 3, monsterCardData.getMonsterType() );
+            statement.setString( 4, monsterCardData.getElement() );
+            statement.setDouble( 5, monsterCardData.getDAMAGE() );
+            statement.setInt(6,monsterCardData.getUserId());
+            statement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
@@ -216,7 +256,21 @@ public class MTCGDaoDb implements Dao<UserData, MonsterCardData, SpellCardData>{
 
     @Override
     public void saveSpellCard(SpellCardData spellCardData) {
-
+        try ( PreparedStatement statement = DbConnection.getInstance().prepareStatement("""
+                INSERT INTO spellCards
+                (id, name, element, damage, user_id)
+                VALUES (?, ?, ?, ?, ?);
+                """ )
+        ) {
+            statement.setInt( 1, spellCardData.getId() );
+            statement.setString(2, spellCardData.getName() );
+            statement.setString( 3, spellCardData.getElement() );
+            statement.setDouble( 4, spellCardData.getDAMAGE() );
+            statement.setInt(5,spellCardData.getUserId());
+            statement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
@@ -228,4 +282,45 @@ public class MTCGDaoDb implements Dao<UserData, MonsterCardData, SpellCardData>{
     public void deleteSpellCard(SpellCardData spellCardData) {
 
     }
+
+    public ArrayList<Card> createDeck(int user_id){
+
+        ArrayList<Card> result = new ArrayList<>();
+        try ( PreparedStatement statement = DbConnection.getInstance().prepareStatement("""
+                SELECT id, name, monsterType, element, damage, user_id
+                FROM monsterCards
+                WHERE user_id = ?
+                """)
+        ) {
+            statement.setInt( 1, user_id );
+            ResultSet resultSet = statement.executeQuery();
+            while( resultSet.next() ) {
+               //TODO how to distinguish between monster and spell!!
+                MonsterCard card = new MonsterCard(resultSet.getString(2), ElementType.valueOf(resultSet.getString(4)), resultSet.getInt(5), MonsterType.valueOf(resultSet.getString(3)));
+                result.add(card);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        try ( PreparedStatement statement = DbConnection.getInstance().prepareStatement("""
+                SELECT id, name, element, damage, user_id
+                FROM spellCards
+                WHERE user_id = ?
+                """)
+        ) {
+            statement.setInt( 1, user_id );
+            ResultSet resultSet = statement.executeQuery();
+            while( resultSet.next() ) {
+                SpellCard card = new SpellCard(resultSet.getString(2), ElementType.valueOf(resultSet.getString(3)), resultSet.getInt(4));
+                result.add(card);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
+    }
+
+
+
 }

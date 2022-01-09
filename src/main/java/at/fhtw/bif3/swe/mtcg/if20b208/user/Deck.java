@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class Deck {
 
 
-    public static List<Card> createDeck(User user){
+/*    public static List<Card> createDeck(User user){
         List<Card> deck;
         //TODO What if 2 Cards same DMG?
         //TODO User should be able to pick the cards he want to put in his deck by himself!!!!!!
@@ -20,7 +20,7 @@ public class Deck {
                 .collect(Collectors.toList());
 
         return deck;
-    }
+    }*/
     public static void chooseDeck(User user){
         System.out.println("CHOOSE DECK");
     }

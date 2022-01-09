@@ -5,6 +5,7 @@ import at.fhtw.bif3.swe.mtcg.if20b208.user.Deck;
 import at.fhtw.bif3.swe.mtcg.if20b208.user.User;
 import at.fhtw.bif3.swe.mtcg.if20b208.user.UserHistory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -12,50 +13,52 @@ import java.util.stream.Collectors;
 public class BattleLogic {
     private final User user1;
     private final User user2;
-
-    public BattleLogic(User user1, User user2){
+    private ArrayList<Card> deck1;
+    private ArrayList<Card> deck2;
+    public BattleLogic(User user1, User user2, ArrayList<Card> deck1, ArrayList<Card> deck2){
         this.user1 = user1;
         this.user2 = user2;
+        this.deck1 = deck1;
+        this.deck2 = deck2;
     }
 
     public void fight(){
 
         System.out.println("USER1 Cards");
-        user1.getDeck().stream()
+        deck1.stream()
                 .sorted(Comparator.comparingDouble(Card::getDAMAGE).reversed())
                 .collect(Collectors.toList())
                 .forEach(element -> System.out.println(element.getName() + " Dmg:" + element.getDAMAGE()));
         System.out.println("USER2 Cards");
-        user2.getDeck().stream()
+       deck2.stream()
                 .sorted(Comparator.comparingDouble(Card::getDAMAGE).reversed())
                 .collect(Collectors.toList())
                 .forEach(element -> System.out.println(element.getName() + " Dmg:" + element.getDAMAGE()));
         System.out.println("CARD LIST END");
         //Shuffle both decks first
-        Collections.shuffle(user1.getDeck());
-        Collections.shuffle(user2.getDeck());
-        if(user1.getDeck().size() == 0){
+        Collections.shuffle(deck2);
+        Collections.shuffle(deck2);
+        if(deck1.size() == 0){
             System.out.println(user1.getUsername() + " has no deck to compete with");
-        } else if (user2.getDeck().size() == 0){
+        } else if (deck2.size() == 0){
             System.out.println(user2.getUsername() + " has no deck to compete with");
         }else {
             for(int i = 1; i < 101; i++){
                 //get random card from both decks and compare
                 if (i == 100){
                     System.out.println("This Match ended in a Draw");
-                } else if (user1.getDeck().size() != 0 && user2.getDeck().size() != 0){
+                } else if (deck1.size() != 0 && deck2.size() != 0){
                     compareCards(i);
-                }else if(user1.getDeck().size() == 0) {
+                }else if(deck1.size() == 0) {
                     System.out.println("User 2 Won");
-                    System.out.println("User 2 Deck size: " + user2.getDeck().size());
-
-                    setStats(user2, user1);
+                    System.out.println("User 2 Deck size: " + deck2.size());
+                    //setStats(user2, user1);
 
                     break;
-                }else if(user2.getDeck().size() == 0){
+                }else if(deck2.size() == 0){
                     System.out.println("User 1 Won");
-                    System.out.println("User 1 Deck size: " + user1.getDeck().size());
-                    setStats(user1,user2);
+                    System.out.println("User 1 Deck size: " + deck2.size());
+                    //setStats(user1,user2);
                     break;
                 }
             }
@@ -63,25 +66,25 @@ public class BattleLogic {
 
         //Reset Swapped cards to initial status
         //TODO reset Deck (when Deck choosing is updated)
-        user1.setDeck(Deck.createDeck(user1));
-        user2.setDeck(Deck.createDeck(user2));
+        //user1.setDeck(Deck.createDeck(user1));
+        //user2.setDeck(Deck.createDeck(user2));
         System.out.println("========================================");
     }
 
     public void compareCards(int round){
         System.out.println("----------------------------------");
-        int user1DrawnCard = (int)(Math.random() * user1.getDeck().size());
-        int user2DrawnCard = (int)(Math.random() * user2.getDeck().size());
+        int user1DrawnCard = (int)(Math.random() * deck1.size());
+        int user2DrawnCard = (int)(Math.random() * deck2.size());
 
         System.out.println("Round " + round);
 
-        Card card1 = user1.getDeck().get(user1DrawnCard);
-        Card card2 = user2.getDeck().get(user2DrawnCard);
+        Card card1 = deck1.get(user1DrawnCard);
+        Card card2 = deck2.get(user2DrawnCard);
 
         //TODO Method to compare all specialities!
         if (checkSpecialities(card1, card2, user1DrawnCard, user2DrawnCard) == true){
-
-        } else if(user1.getDeck().get(user1DrawnCard) instanceof SpellCard || user2.getDeck().get(user2DrawnCard) instanceof SpellCard) {
+        //TODO put something here
+        } else if(deck1.get(user1DrawnCard) instanceof SpellCard || deck2.get(user2DrawnCard) instanceof SpellCard) {
             compareByElements(card1, card2, user1DrawnCard, user2DrawnCard);
         }else if(card1 instanceof MonsterCard && card2 instanceof MonsterCard){
             compareDMG(card1.getDAMAGE(), card2.getDAMAGE(), user1DrawnCard, user2DrawnCard);
@@ -183,14 +186,22 @@ public class BattleLogic {
     private void  compareDMG(double dmg1, double dmg2, int user1DrawnCard, int user2DrawnCard){
         if (dmg1 > dmg2){
             showWinner(user1, user1DrawnCard, user2DrawnCard);
-            swapCards(user1, user2, user2.getDeck().get(user2DrawnCard));
+
+            deck1.add(deck2.get(user2DrawnCard));
+            deck2.remove(deck2.get(user2DrawnCard));
+            System.out.println("DECK SIZE 1: " + deck1.size() + "DECK SIZE 2: " + deck2.size());
+            //swapCards(user1, user2, deck2.get(user2DrawnCard));
         }else if (dmg2 > dmg1){
             showWinner(user2, user1DrawnCard, user2DrawnCard);
-            swapCards(user2, user1, user1.getDeck().get(user1DrawnCard));
+
+            deck2.add(deck1.get(user1DrawnCard));
+            deck1.remove(deck1.get(user1DrawnCard));
+            System.out.println("DECK SIZE 1: " + deck1.size() + "DECK SIZE 2: " + deck2.size());
+            //swapCards(user2, user1, deck1.get(user1DrawnCard));
         } else {
             System.out.println("DRAW");
-            System.out.println("Name: " + user1.getDeck().get(user1DrawnCard).getName() + " vs Name: " + user2.getDeck().get(user2DrawnCard).getName());
-            System.out.println("Damage: " + user1.getDeck().get(user1DrawnCard).getDAMAGE() + " vs Damage: " + user2.getDeck().get(user2DrawnCard).getDAMAGE());
+            System.out.println("Name: " + deck1.get(user1DrawnCard).getName() + " vs Name: " + deck2.get(user2DrawnCard).getName());
+            System.out.println("Damage: " + deck1.get(user1DrawnCard).getDAMAGE() + " vs Damage: " + deck2.get(user2DrawnCard).getDAMAGE());
         }
 
     }
@@ -198,11 +209,11 @@ public class BattleLogic {
     public void showWinner(User winner, int user1DrawnCard, int user2DrawnCard){
         System.out.println("Winner " + winner.getUsername());
         System.out.println("Player1: " + user1.getUsername() + " Player2: " + user2.getUsername());
-        System.out.println("Name: " + user1.getDeck().get(user1DrawnCard).getName() + " vs Name: " + user2.getDeck().get(user2DrawnCard).getName());
-        System.out.println("Damage: " + user1.getDeck().get(user1DrawnCard).getDAMAGE() + " vs Damage: " + user2.getDeck().get(user2DrawnCard).getDAMAGE());
+        System.out.println("Name: " + deck1.get(user1DrawnCard).getName() + " vs Name: " + deck2.get(user2DrawnCard).getName());
+        System.out.println("Damage: " + deck1.get(user1DrawnCard).getDAMAGE() + " vs Damage: " + deck2.get(user2DrawnCard).getDAMAGE());
     }
 
-    public void swapCards(User winner, User loser, Card card){
+/*    public void swapCards(User winner, User loser, Card card){
         winner.getDeck().add(card);
         loser.getDeck().remove(card);
     }
@@ -220,5 +231,5 @@ public class BattleLogic {
             loser.setLosses(loser.getLosses() + 1);
 
 
-    }
+    }*/
 }
