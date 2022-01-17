@@ -1,9 +1,7 @@
 package at.fhtw.bif3.swe.mtcg.if20b208;
 
 import at.fhtw.bif3.swe.mtcg.if20b208.cards.*;
-import at.fhtw.bif3.swe.mtcg.if20b208.user.Deck;
 import at.fhtw.bif3.swe.mtcg.if20b208.user.User;
-import at.fhtw.bif3.swe.mtcg.if20b208.user.UserHistory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +13,8 @@ public class BattleLogic {
     private final User user2;
     private ArrayList<Card> deck1;
     private ArrayList<Card> deck2;
+    private String history = "";
+    private String winner;
     public BattleLogic(User user1, User user2, ArrayList<Card> deck1, ArrayList<Card> deck2){
         this.user1 = user1;
         this.user2 = user2;
@@ -47,29 +47,31 @@ public class BattleLogic {
                 //get random card from both decks and compare
                 if (i == 100){
                     System.out.println("This Match ended in a Draw");
+                    winner = "DRAW";
+                    history = history + "\n GAME DRAW! " + user1.getUsername();
+                    break;
                 } else if (deck1.size() != 0 && deck2.size() != 0){
                     compareCards(i);
                 }else if(deck1.size() == 0) {
                     System.out.println("User 2 Won");
                     System.out.println("User 2 Deck size: " + deck2.size());
                     //setStats(user2, user1);
-
+                    winner = user1.getUsername();
+                    history = history + "\n GAME WINNER: " + user1.getUsername();
                     break;
                 }else if(deck2.size() == 0){
                     System.out.println("User 1 Won");
                     System.out.println("User 1 Deck size: " + deck2.size());
                     //setStats(user1,user2);
+                    winner = user2.getUsername();
+                    history = history + "\n GAME WINNER: " + user2.getUsername();
                     break;
                 }
             }
         }
 
-        //Reset Swapped cards to initial status
-        //TODO reset Deck (when Deck choosing is updated)
-        //user1.setDeck(Deck.createDeck(user1));
-        //user2.setDeck(Deck.createDeck(user2));
-        System.out.println("========================================");
     }
+
 
     public void compareCards(int round){
         System.out.println("----------------------------------");
@@ -81,9 +83,7 @@ public class BattleLogic {
         Card card1 = deck1.get(user1DrawnCard);
         Card card2 = deck2.get(user2DrawnCard);
 
-        //TODO Method to compare all specialities!
-        if (checkSpecialities(card1, card2, user1DrawnCard, user2DrawnCard) == true){
-        //TODO put something here
+        if (checkSpecialities(card1, card2, user1DrawnCard, user2DrawnCard)){
         } else if(deck1.get(user1DrawnCard) instanceof SpellCard || deck2.get(user2DrawnCard) instanceof SpellCard) {
             compareByElements(card1, card2, user1DrawnCard, user2DrawnCard);
         }else if(card1 instanceof MonsterCard && card2 instanceof MonsterCard){
@@ -211,25 +211,15 @@ public class BattleLogic {
         System.out.println("Player1: " + user1.getUsername() + " Player2: " + user2.getUsername());
         System.out.println("Name: " + deck1.get(user1DrawnCard).getName() + " vs Name: " + deck2.get(user2DrawnCard).getName());
         System.out.println("Damage: " + deck1.get(user1DrawnCard).getDAMAGE() + " vs Damage: " + deck2.get(user2DrawnCard).getDAMAGE());
+
+        history = history + "\n [Round Winner " + winner.getUsername() + " Fight Details: " + user1.getUsername() + " "+  deck1.get(user1DrawnCard).getName() + " " + deck1.get(user1DrawnCard).getDAMAGE() + " vs " + user2.getUsername() + " " + deck2.get(user2DrawnCard).getName() + " " +  deck2.get(user2DrawnCard).getDAMAGE() + "]";
     }
 
-/*    public void swapCards(User winner, User loser, Card card){
-        winner.getDeck().add(card);
-        loser.getDeck().remove(card);
+    public String getWinner() {
+        return winner;
     }
 
-    public void setStats(User winner,User loser){
-
-            winner.getHistory().add(new UserHistory("win", loser.getUsername()));
-            winner.setEloPoints(loser.getEloPoints() + 3);
-            winner.setGamesPlayed(loser.getGamesPlayed()+1);
-            winner.setWins(loser.getWins() + 1);
-
-            loser.getHistory().add(new UserHistory("loss", winner.getUsername()));
-            loser.setEloPoints(loser.getEloPoints() - 5);
-            loser.setGamesPlayed(loser.getGamesPlayed()+1);
-            loser.setLosses(loser.getLosses() + 1);
-
-
-    }*/
+    public String getHistory() {
+        return history;
+    }
 }

@@ -58,7 +58,7 @@ public class DbConnection implements Closeable {
 
     public static boolean executeSql(Connection connection, String sql, boolean ignoreIfFails) throws SQLException {
         try ( Statement statement = connection.createStatement() ) {
-            statement.execute(sql );
+            statement.execute(sql);
             return true;
         } catch (SQLException e) {
             if( !ignoreIfFails )

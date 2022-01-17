@@ -1,24 +1,28 @@
 package at.fhtw.bif3.swe.mtcg.if20b208;
 
-import at.fhtw.bif3.swe.mtcg.if20b208.cards.*;
 import at.fhtw.bif3.swe.mtcg.if20b208.database.MTCGDaoDb;
-import at.fhtw.bif3.swe.mtcg.if20b208.database.model.MonsterCardData;
-import at.fhtw.bif3.swe.mtcg.if20b208.database.model.SpellCardData;
-import at.fhtw.bif3.swe.mtcg.if20b208.database.model.UserData;
-import at.fhtw.bif3.swe.mtcg.if20b208.user.Deck;
-import at.fhtw.bif3.swe.mtcg.if20b208.user.Stack;
-import at.fhtw.bif3.swe.mtcg.if20b208.user.User;
-import at.fhtw.bif3.swe.mtcg.if20b208.user.UserHistory;
+import at.fhtw.bif3.swe.mtcg.if20b208.server.Server;
+import at.fhtw.bif3.swe.mtcg.if20b208.server.ResponseHandler;
 
-import java.util.*;
-
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.net.ServerSocket;
 
 public class Main{
     private static MTCGDaoDb dao;
 
     public static void main(String[] args) {
 
+        dao = new MTCGDaoDb();
+        MTCGDaoDb.initDb();
+        MTCGDaoDb daoDb = new MTCGDaoDb();
+
+        Server server = new Server();
+        try {
+            server.start(10001);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("dasdasda");
 /*
         //Stack stack = new Stack();
         User leart = new User("Leart", "123456789", Stack.fillStack());
@@ -69,12 +73,10 @@ public class Main{
 
 
         //For testing purposes
-        dao = new MTCGDaoDb();
-        MTCGDaoDb.initDb();
-        MTCGDaoDb daoDb = new MTCGDaoDb();
-        daoDb.saveUser(new UserData(1,"leart","sadsdasd",20,0,0,0,0));
-        daoDb.saveUser(new UserData(2,"test1","sadsdasd",20,0,0,0,0));
-        daoDb.saveUser(new UserData(3,"Son Goku","sadsdasd",20,0,0,0,0));
+
+/*        daoDb.saveUser(new UserData("leart","sadsdasd",20,false,0,0,0,0));
+        daoDb.saveUser(new UserData("test1","sadsdasd",20,false,0,0,0,0));
+        daoDb.saveUser(new UserData("Son Goku","sadsdasd",20,false,0,0,0,0));
 
         fillStack(1);
         fillStack(2);
@@ -83,12 +85,12 @@ public class Main{
         ArrayList<Card> deck2 = daoDb.createDeck(2);
         daoDb.createDeck(2);
 
-        User user1 = daoDb.getUser(1);
-        User user2 = daoDb.getUser(2);
+        User user1 = daoDb.getUser("leart");
+        User user2 = daoDb.getUser("Son Goku");
 
         System.out.println(user1.getUsername());
         BattleLogic battle = new BattleLogic(user1, user2, deck1, deck2);
-        battle.fight();
+        battle.fight();*/
         //UserData user1 = getPlayer(1);
         //daoDb.updateUser(user1, new String[] {"1","LeartR", "testpass"});
 
@@ -98,40 +100,10 @@ public class Main{
         //UserData user3 = getPlayer(3);
         //dao.deleteUser(user3);
 
-        dao.getAllUsers().forEach(item -> System.out.println(item));
-        System.out.println("GET ALL MONSTER CARDS:");
-        dao.getAllMonsterCards().forEach(item -> System.out.println(item));
+        //dao.getAllUsers().forEach(item -> System.out.println(item));
+        //System.out.println("GET ALL MONSTER CARDS:");
+        //dao.getAllCards().forEach(item -> System.out.println(item));
 
-        //TODO User inputs (setUsername, startFight, chooseDeck....)
-        //TODO Create class for user inputs
-        while(true){
-            Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-
-            System.out.println("You can use following commands:");
-            System.out.println("register - creates a profile for you with your chosen username");
-            System.out.println("login - log in with your data");
-            System.out.println("chooseDeck - lets you choose 4 cards for your deck");
-            System.out.println("quit - ends the app");
-
-            String command = myObj.nextLine();  // Read user input
-
-            if(command.equals("quit")){
-                System.out.println("You pressed quit");
-                break;
-            }else if(command.equals("setProfile")){
-                System.out.println("Type in your Username:");
-                String name = myObj.nextLine();  // Read user input
-                System.out.println("Choose a password:");
-                String password = myObj.nextLine();  // Read user input
-                //User thisUser = new User(name, password);
-            }
-            else if(command.equals("chooseDeck")){
-                //Deck.chooseDeck(thisUser);
-            }else {
-                System.out.println("nothing");
-            }
-        }
-        //------------------------------------
 /*
         String string1 = "Leart";
         String string2 = "Rustemi";
@@ -156,7 +128,8 @@ public class Main{
         );
     }*/
 
-    public static void fillStack(int userId) {
+    //for testing
+/*    public static void fillStack(int userId) {
         for(int i = 0; i<=3; i++){
             Random r = new Random();
             int low = 10;
@@ -165,19 +138,18 @@ public class Main{
             int damage = r.nextInt(high-low) + low;
             if(i % 2 == 0){
                 ElementType randomElement = ElementType.values()[new Random().nextInt(ElementType.values().length)];
-                MonsterType randomMonster = MonsterType.values()[new Random().nextInt(MonsterType.values().length)]
-                Card newCard = new Card(randomMonster+"-"+randomElement, damage);
-
-                dao.saveMonsterCard(new MonsterCardData(random_id,newCard.getName(),newCard.getElement().name(),newCard.getMonsterType().name(),newCard.getDAMAGE(),userId));
+                MonsterType randomMonster = MonsterType.values()[new Random().nextInt(MonsterType.values().length)];
+                //Card newCard = new Card(randomMonster + "-" + randomElement, damage);
+                //dao.saveCard(new CardData(random_id, randomMonster + "-" + randomElement,damage,userId));
             }else {
-                SpellCard newCard = new SpellCard("", ElementType.values()[new Random().nextInt(ElementType.values().length)], damage);
-                newCard.setName(newCard.getElement()+"-Spell");
-                dao.saveSpellCard(new SpellCardData(random_id,newCard.getName(),newCard.getElement().name(),newCard.getDAMAGE(),userId));
+                //SpellCard newCard = new SpellCard("", ElementType.values()[new Random().nextInt(ElementType.values().length)], damage);
+                ElementType randomElement = ElementType.values()[new Random().nextInt(ElementType.values().length)];
+               // dao.saveCard(new CardData(random_id,randomElement+"-Spell", damage, userId));
             }
 
 
         }
 
-    }
+    }*/
 
 }

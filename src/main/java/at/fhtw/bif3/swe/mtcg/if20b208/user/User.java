@@ -14,14 +14,11 @@ public class User {
     private String username;
     private String password;
     private int coins;
-    //private List<Card> stack;
-    //private List<Card> deck = new ArrayList<>();
-    private int eloPoints = 100;
-    private int gamesPlayed = 0;
-    private int wins = 0;
-    private int losses = 0;
-    //private List<UserHistory> history = new ArrayList();
-    //private Stack stack;
+    private int eloPoints;
+    private int gamesPlayed;
+    private int wins;
+    private int losses;
+
 
     public User(String username, String password, int coins, int eloPoints, int gamesPlayed, int wins, int losses) {
         this.username = username;

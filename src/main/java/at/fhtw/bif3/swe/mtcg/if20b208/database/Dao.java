@@ -10,26 +10,26 @@ import java.util.Optional;
 public interface Dao<T, C> {
 
     //User
-    User getUser(int id);
+    User getUser(String username);
 
-    Collection<T> getAllUsers();
+    //Collection<T> getAllUsers();
 
     void saveUser(T t);
 
     void updateUser(T t, String[] params);
 
-    void deleteUser(T t);
+    //void deleteUser(T t);
 
     //Cards
     void getCard(C c);
 
-    Collection<C> getAllCards();
+    //Collection<C> getAllCards();
 
-    void saveMonsterCard(C c);
+    void saveCard(C c);
 
-    void updateMonsterCard(C c, String[] params);
+    void updateCard(C c, String[] params);
 
-    void deleteMonsterCard(C c);
+    void deleteCard(C c);
 
 
 }

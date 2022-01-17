@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class SpellCard extends Card{
 
-    public SpellCard(String name, ElementType element, int DAMAGE) {
+    public SpellCard(String name, ElementType element, double DAMAGE) {
         super(name, element, DAMAGE);
     }
 

@@ -7,7 +7,7 @@ import lombok.*;
 public class MonsterCard extends Card{
     private MonsterType monsterType;
 
-    public MonsterCard(String name, ElementType element, int DAMAGE, MonsterType monsterType) {
+    public MonsterCard(String name, ElementType element, double DAMAGE, MonsterType monsterType) {
         super(name, element, DAMAGE);
         this.monsterType = monsterType;
     }
