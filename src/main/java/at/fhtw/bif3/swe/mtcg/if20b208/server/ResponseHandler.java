@@ -21,10 +21,11 @@ public class ResponseHandler {
             if (request.getPathname().equals("/users") ) {
                 HashMap jsonMap = Helper.parseJson(request.getBody());
                 daoDb.saveUser(new UserData(jsonMap.get("Username").toString(),jsonMap.get("Password").toString(),20, false,100,0,0,0));
+                responseText = "User created";
             }else if(request.getPathname().equals("/sessions")){
                 HashMap jsonMap = Helper.parseJson(request.getBody());
                 Boolean asd = daoDb.logInOutUser(true, jsonMap.get("Username").toString(), jsonMap.get("Password").toString());
-                System.out.println("TRUE OR FALSE: " + asd);
+                responseText = "You are now logged in as: " + jsonMap.get("Username").toString();
             }else if(request.getPathname().equals("/packages") && Helper.checkToken("admin", request.getToken())){
                 if(daoDb.isLogedIn(Helper.nameFromToken(request.getToken()))) {
                     System.out.println("IS LOGED IN ");
@@ -33,6 +34,7 @@ public class ResponseHandler {
                     //for each card in package create a card and a package record that references to that card
                     jsonMap.forEach(x -> daoDb.saveCard(Helper.getCardsFromPackage(x)));
                     jsonMap.forEach(x -> daoDb.addPackage(x.getId()));
+                    responseText = "package created";
                 }
 
             }else if(request.getPathname().equals("/transactions/packages")){
@@ -40,6 +42,7 @@ public class ResponseHandler {
                 if(daoDb.isLogedIn(username)){
                     if (daoDb.getUserCoins(username) >= 5){
                         daoDb.acquirePackage(Helper.nameFromToken(request.getToken()));
+                        responseText = "package acquired";
                     }else {
                         responseText = "not enough coins";
                     }
@@ -83,10 +86,10 @@ public class ResponseHandler {
                             System.out.println("SPLITTED: " + card_id);
                             if(daoDb.tradeCards(username, trade_id[2], card_id)){
                                 responseText = "Deal was successful";
-                                code = "200";;
+                                code = "200";
                             }else {
                                 responseText = "Deal not found";
-                                code = "404";;
+                                code = "404";
                             }
 
                         }else {
@@ -104,19 +107,19 @@ public class ResponseHandler {
                         if(daoDb.getUserDeck(username).size() == 4){
                             String log = daoDb.battle(username);
                             responseText = log;
-                            code = "200";;
+                            code = "200";
                         }else {
                             responseText = "not enough cards in deck";
-                            code = "400";;
+                            code = "400";
                         }
                     }else {
                         responseText = "not logged in";
-                        code = "400";;
+                        code = "400";
                     }
                 }else {
                     System.out.println("no token");
                     responseText = "No token";
-                    code = "400";;
+                    code = "400";
                 }
             }
 
@@ -133,7 +136,7 @@ public class ResponseHandler {
                 }else {
                     System.out.println("no token");
                     responseText = "No token";
-                    code = "400";;
+                    code = "400";
                 }
             }else if(request.getPathname().equals("/deck")){
                 if(request.getToken() != null){
@@ -146,7 +149,7 @@ public class ResponseHandler {
                 }else {
                     System.out.println("no token");
                     responseText = "No token";
-                    code = "200";;
+                    code = "200";
                 }
             }else if(request.getPathname().contains("/users/")){
                 String[] name = request.getPathname().split("/");
@@ -157,7 +160,7 @@ public class ResponseHandler {
                         if (daoDb.isLogedIn(username)) {
                             String[] profile = daoDb.getUserProfile(username);
                             responseText = "Name: " + profile[0] + " Bio: " + profile[1] + " Image: " + profile[2];
-                            code = "200";;
+                            code = "200";
                         }else {
                             responseText = "not logged in";
                         }
@@ -176,7 +179,7 @@ public class ResponseHandler {
                     }
                 }else {
                     responseText = "No token";
-                    code = "404";;
+                    code = "404";
                 }
             }else if (request.getPathname().equals("/score")){
                 if(request.getToken() != null){
@@ -187,7 +190,7 @@ public class ResponseHandler {
                     }
                 }else {
                     responseText = "No token";
-                    code = "404";;
+                    code = "404";
                 }
             }else if(request.getPathname().equals("/tradings")){
                 String username = Helper.nameFromToken(request.getToken());
@@ -198,11 +201,11 @@ public class ResponseHandler {
                         responseText = Helper.writeTradeDealsListToJsonArray(deals);
                     }else{
                         responseText = "Not logged in";
-                        code = "400";;
+                        code = "400";
                     }
                 }else {
                     responseText = "No token";
-                    code = "400";;
+                    code = "400";
                 }
 
             }
@@ -216,19 +219,19 @@ public class ResponseHandler {
                         if (cardIds.length == 4) {
                             if (daoDb.createUserDeck(cardIds, Helper.nameFromToken(request.getToken()))) {
                                 responseText = "Deck set";
-                                code = "200";;
+                                code = "200";
                             } else {
                                 responseText = "Deck not set";
-                                code = "400";;
+                                code = "400";
                             }
                         } else {
                             responseText = "please pick exactly 4 cards";
-                            code = "400";;
+                            code = "400";
                         }
                     }
                 }else{
                     responseText = "no token";
-                    code = "400";;
+                    code = "400";
                 }
             }else if(request.getPathname().contains("/users/")){
                 String[] name = request.getPathname().split("/");
@@ -240,7 +243,7 @@ public class ResponseHandler {
                             HashMap jsonMap = Helper.parseJson(request.getBody());
                             if(daoDb.updateUserProfile(username , jsonMap.get("Name").toString(), jsonMap.get("Bio").toString(), jsonMap.get("Image").toString())){
                                 responseText = "Profile updated";
-                                code = "200";;
+                                code = "200";
                             }else {
                                 responseText = "Profile not found";
                             }
@@ -258,17 +261,18 @@ public class ResponseHandler {
         }else if(request.getHttpRequest() == HttpRequest.DELETE){
             MTCGDaoDb daoDb = new MTCGDaoDb();
             if (request.getPathname().contains("/tradings/")){
-                String[] card_id = request.getPathname().split("/");
+                String[] trade_id = request.getPathname().split("/");
                 if(request.getToken() != null) {
                     String username = Helper.nameFromToken(request.getToken());
-                    if(daoDb.checkIfCardBelongsToUser(username,card_id[2])){
+                    String card_id = daoDb.getCardIdFromTradeDeal(trade_id[2]);
+                    if(daoDb.checkIfCardBelongsToUser(username, card_id)){
                         if (daoDb.isLogedIn(username)) {
-                            if(daoDb.deleteTradingDeal(card_id[2])){
+                            if(daoDb.deleteTradingDeal(trade_id[2])){
                                 responseText = "Deal deleted";
-                                code = "200";;
+                                code = "200";
                             }else {
                                 responseText = "Deal not found";
-                                code = "404";;
+                                code = "404";
                             }
 
                         }else {

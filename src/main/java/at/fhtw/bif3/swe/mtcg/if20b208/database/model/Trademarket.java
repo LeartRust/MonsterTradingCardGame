@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class Trademarket {
 
     private String id;
-    @JsonProperty
     private String card_id;
     @JsonProperty
     private String card;
