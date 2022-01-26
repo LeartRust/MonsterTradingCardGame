@@ -18,23 +18,13 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class BattleTest {
-    @Mock User mockedA = new User("TestUser1", "testPassword", 20,0,0,0,0);
-    @Mock User mockedB = new User("TestUser2", "testPassword", 20,0,0,0,0);
-    @Mock ArrayList<Card> deck1 = new ArrayList<>();
-    @Mock ArrayList<Card> deck2 = new ArrayList<>();
-    @Mock BattleLogic battleLogic;
+    User mockedA = new User("TestUser1", "testPassword", 20,0,0,0,0);
+    User mockedB = new User("TestUser2", "testPassword", 20,0,0,0,0);
+    ArrayList<Card> deck1 = new ArrayList<>();
+    ArrayList<Card> deck2 = new ArrayList<>();
+    BattleLogic battleLogic;
     //TODO create 2 Test users with decks and test battle logic + elo stats, etc...
 
-    //Setup *not working*
-
-    @BeforeEach
-    void setUp() {
-        MonsterCard monster1 = new MonsterCard("FireDragon", ElementType.FIRE, 15, MonsterType.DRAGON);
-        SpellCard spell = new SpellCard("WaterSpell", ElementType.WATER, 65);
-        deck1.add(spell);
-        deck2.add(monster1);
-        System.out.println("DECK sizze: " + deck1);
-    }
 
     @Test
     @DisplayName("Test if deck goes -1 for user1")
