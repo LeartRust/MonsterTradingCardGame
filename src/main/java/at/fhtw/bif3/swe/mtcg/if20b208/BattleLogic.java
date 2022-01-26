@@ -38,7 +38,10 @@ public class BattleLogic {
         //Shuffle both decks first
         Collections.shuffle(deck2);
         Collections.shuffle(deck2);
-        if(deck1.size() == 0){
+        //TODO return false to MTCGDaoDb
+        if(deck1.size() == 0 && deck2.size() == 0) {
+            System.out.println("Both players dont have enough cards to compete with");
+        }else if(deck1.size() == 0){
             System.out.println(user1.getUsername() + " has no deck to compete with");
         } else if (deck2.size() == 0){
             System.out.println(user2.getUsername() + " has no deck to compete with");
@@ -126,7 +129,7 @@ public class BattleLogic {
 
     }
 
-    private boolean checkSpecialities(Card card1, Card card2, int user1DrawnCard, int user2DrawnCard){
+    public boolean checkSpecialities(Card card1, Card card2, int user1DrawnCard, int user2DrawnCard){
         if (card1 instanceof MonsterCard && card2 instanceof MonsterCard){
             //check if Goblin vs Dragon
             if (((MonsterCard) card1).getMonsterType().equals(MonsterType.GOBLIN) && ((MonsterCard) card2).getMonsterType().equals(MonsterType.DRAGON)){
@@ -183,7 +186,7 @@ public class BattleLogic {
     }
 
     //dmg1 - always user1 | dmg2 - always user2 !
-    private void  compareDMG(double dmg1, double dmg2, int user1DrawnCard, int user2DrawnCard){
+    private void compareDMG(double dmg1, double dmg2, int user1DrawnCard, int user2DrawnCard){
         if (dmg1 > dmg2){
             showWinner(user1, user1DrawnCard, user2DrawnCard);
 

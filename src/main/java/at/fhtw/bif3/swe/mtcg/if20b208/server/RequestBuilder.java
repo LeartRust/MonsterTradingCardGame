@@ -13,10 +13,10 @@ public class RequestBuilder {
         Request request = new Request();
         if (line != null) {
             String[] splitFirstLine = line.split(" ");
-            Boolean hasParams = splitFirstLine[1].indexOf("?") != -1;
+            Boolean getParams = splitFirstLine[1].indexOf("?") != -1;
             request.setHttpRequest(getMethod(splitFirstLine));
-            request.setPathname(getPathname(splitFirstLine, hasParams));
-            request.setParams(getParams(splitFirstLine, hasParams));
+            request.setPathname(getPathname(splitFirstLine, getParams));
+            request.setParams(getParams(splitFirstLine, getParams));
             while (!line.isEmpty()) {
                 System.out.println(line);
                 line = in.readLine();
