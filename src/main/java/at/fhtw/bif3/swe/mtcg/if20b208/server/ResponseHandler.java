@@ -174,7 +174,8 @@ public class ResponseHandler {
                     String username = Helper.nameFromToken(request.getToken());
                     if (daoDb.isLogedIn(username)){
                         User user = daoDb.getUser(username);
-                        responseText = user.getUsername() +" Coins: " + user.getCoins()+ " Elo points: " + user.getEloPoints() + " Games played: "+ user.getGamesPlayed() + " Wins: "+ user.getWins() + " losses: " + user.getLosses();                    }else {
+                        responseText = user.getUsername() +" Coins: " + user.getCoins()+ " Elo points: " + user.getEloPoints() + " Games played: "+ user.getGamesPlayed() + " Wins: "+ user.getWins() + " losses: " + user.getLosses();
+                    }else {
                         System.out.println("not logged in");
                     }
                 }else {

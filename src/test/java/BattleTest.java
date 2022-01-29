@@ -35,7 +35,7 @@ public class BattleTest {
         deck2.add(monster1);
         battleLogic = new BattleLogic(mockedA, mockedB, deck1, deck2);
         battleLogic.fight();
-        assertTrue("Deck1 size = 2 | Deck2 size = 0", deck1.size() == 2 && deck2.size() == 0);
+        assertTrue("Deck sizes should be: Deck1 size = 2 | Deck2 size = 0", deck1.size() == 2 && deck2.size() == 0);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class BattleTest {
         System.out.println(deck1.size());
         System.out.println(deck2.size());
         battleLogic.fight();
-        assertTrue("Deck1 size = 0 | Deck2 size = 2", deck2.size() == 2 && deck1.size() == 0);
+        assertTrue("Deck sizes should be: Deck1 size = 0 | Deck2 size = 2", deck2.size() == 2 && deck1.size() == 0);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class BattleTest {
         System.out.println(deck1.size());
         System.out.println(deck2.size());
         battleLogic.fight();
-        assertTrue("Draw possible", deck1.size() == 1);
+        assertTrue("Draw should be possible", deck1.size() == 1);
     }
 
     //TESTS IF ELEMENT MAKES A DIFFERENCE IN FIGHTS (Monster vs Spell & Spell vs Spell) & (no specialities)!
@@ -80,7 +80,7 @@ public class BattleTest {
         System.out.println(deck1.size());
         System.out.println(deck2.size());
         battleLogic.fight();
-        assertTrue("Water Spell is stronger than Fire Monster", deck1.size() == 2 && deck2.size() == 0);
+        assertTrue("Water Spell should be stronger than Fire Monster", deck1.size() == 2 && deck2.size() == 0);
     }
     @Test
     @DisplayName("Test if Normal Monster is stronger than Water Spell")
@@ -93,7 +93,7 @@ public class BattleTest {
         System.out.println(deck1.size());
         System.out.println(deck2.size());
         battleLogic.fight();
-        assertTrue("Normal Monster is stronger than Water Spell", deck1.size() == 2 && deck2.size() == 0);
+        assertTrue("Normal Monster should be stronger than Water Spell", deck1.size() == 2 && deck2.size() == 0);
     }
     @Test
     @DisplayName("Test if Fire Monster is stronger than Normal Spell")
@@ -106,7 +106,7 @@ public class BattleTest {
         System.out.println(deck1.size());
         System.out.println(deck2.size());
         battleLogic.fight();
-        assertTrue("Fire is stronger than Normal", deck1.size() == 2 && deck2.size() == 0);
+        assertTrue("Fire should be stronger than Normal", deck1.size() == 2 && deck2.size() == 0);
     }
 
     //Test Spell vs Spell
@@ -121,7 +121,7 @@ public class BattleTest {
         System.out.println(deck1.size());
         System.out.println(deck2.size());
         battleLogic.fight();
-        assertTrue("Water Spell is stronger than Fire Spell", deck1.size() == 2 && deck2.size() == 0);
+        assertTrue("Water Spell should be stronger than Fire Spell", deck1.size() == 2 && deck2.size() == 0);
     }
 
     @Test
@@ -135,7 +135,7 @@ public class BattleTest {
         System.out.println(deck1.size());
         System.out.println(deck2.size());
         battleLogic.fight();
-        assertTrue("Fire Spell is stronger than Normal Spell", deck1.size() == 2 && deck2.size() == 0);
+        assertTrue("Fire Spell should be stronger than Normal Spell", deck1.size() == 2 && deck2.size() == 0);
     }
 
     @Test
@@ -149,7 +149,7 @@ public class BattleTest {
         System.out.println(deck1.size());
         System.out.println(deck2.size());
         battleLogic.fight();
-        assertTrue("Fire Spell is stronger than Normal Spell", deck1.size() == 2 && deck2.size() == 0);
+        assertTrue("Fire Spell should be stronger than Normal Spell", deck1.size() == 2 && deck2.size() == 0);
     }
 
 
@@ -164,7 +164,7 @@ public class BattleTest {
         System.out.println(deck1.size());
         System.out.println(deck2.size());
         battleLogic.fight();
-        assertTrue("Element makes no difference in this fight", deck1.size() == 2 && deck2.size() == 0);
+        assertTrue("Element should make no difference in this fight", deck1.size() == 2 && deck2.size() == 0);
     }
 
 

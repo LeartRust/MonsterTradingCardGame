@@ -14,7 +14,6 @@ public class Main{
 
         dao = new MTCGDaoDb();
         MTCGDaoDb.initDb();
-        MTCGDaoDb daoDb = new MTCGDaoDb();
 
         Server server = new Server();
         try {

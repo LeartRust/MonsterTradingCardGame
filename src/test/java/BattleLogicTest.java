@@ -15,7 +15,7 @@ public class BattleLogicTest {
     public void compareSameElement(){
         MonsterCard monster1 = new MonsterCard("FireDragon", ElementType.FIRE, 15, MonsterType.DRAGON);
         MonsterCard monster2 = new MonsterCard("FireDragon", ElementType.FIRE, 70, MonsterType.DRAGON);
-        assertTrue("Both Monsters have the same ", monster1.getMonsterType() ==  monster2.getMonsterType());
+        assertTrue("Both Monsters should have the same ", monster1.getMonsterType() ==  monster2.getMonsterType());
     }
 
     @Test
@@ -29,7 +29,7 @@ public class BattleLogicTest {
         ArrayList<Card> deck2 = new ArrayList<Card>();
         deck2.add(monster2);
         BattleLogic battleLogic = new BattleLogic(user1, user2, deck1, deck2);
-        assertTrue("this is a speciality", battleLogic.checkSpecialities(monster1, monster2,0,0));
+        assertTrue("Fight should contain a speciality", battleLogic.checkSpecialities(monster1, monster2,0,0));
     }
 
     @Test
@@ -43,7 +43,7 @@ public class BattleLogicTest {
         ArrayList<Card> deck2 = new ArrayList<Card>();
         deck2.add(spell);
         BattleLogic battleLogic = new BattleLogic(user1, user2, deck1, deck2);
-        assertTrue("this is a speciality", battleLogic.checkSpecialities(monster1, spell,0,0));
+        assertTrue("Fight should contain a speciality", battleLogic.checkSpecialities(monster1, spell,0,0));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class BattleLogicTest {
         ArrayList<Card> deck2 = new ArrayList<Card>();
         deck2.add(monster2);
         BattleLogic battleLogic = new BattleLogic(user1, user2, deck1, deck2);
-        assertTrue("this is a speciality", battleLogic.checkSpecialities(monster1, monster2,0,0));
+        assertTrue("Fight should contain a speciality", battleLogic.checkSpecialities(monster1, monster2,0,0));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class BattleLogicTest {
         ArrayList<Card> deck2 = new ArrayList<Card>();
         deck2.add(monster2);
         BattleLogic battleLogic = new BattleLogic(user1, user2, deck1, deck2);
-        assertTrue("this is a speciality", battleLogic.checkSpecialities(monster1, monster2,0,0));
+        assertTrue("Fight should contain a speciality", battleLogic.checkSpecialities(monster1, monster2,0,0));
     }
 
     @Test
@@ -86,7 +86,7 @@ public class BattleLogicTest {
         ArrayList<Card> deck2 = new ArrayList<Card>();
         deck2.add(spell);
         BattleLogic battleLogic = new BattleLogic(user1, user2, deck1, deck2);
-        assertTrue("this is a speciality", battleLogic.checkSpecialities(monster1, spell,0,0));
+        assertTrue("Fight should contain a speciality", battleLogic.checkSpecialities(monster1, spell,0,0));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class BattleLogicTest {
         ArrayList<Card> deck2 = new ArrayList<Card>();
         deck2.add(monster2);
         BattleLogic battleLogic = new BattleLogic(user1, user2, deck1, deck2);
-        assertFalse("this is not a speciality", battleLogic.checkSpecialities(monster1, monster2,0,0));
+        assertFalse("There should be no speciality", battleLogic.checkSpecialities(monster1, monster2,0,0));
     }
 
 

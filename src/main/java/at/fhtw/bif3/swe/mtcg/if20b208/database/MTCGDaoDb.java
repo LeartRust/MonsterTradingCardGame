@@ -91,10 +91,6 @@ public class MTCGDaoDb implements Dao<UserData, CardData>{
         }
     }
 
-/*    select * from battle
-      where user2name = null
-      limit 1*/
-
     public String battle(String username){
         String log = "";
         List<Integer> openBattles = activeBattles();
@@ -535,7 +531,8 @@ public class MTCGDaoDb implements Dao<UserData, CardData>{
             while( resultSet.next() ) {
                 userCards.add( new Card(
                         resultSet.getString(1),
-                        ElementType.valueOf(resultSet.getString( 2)),
+                        //TODO check if toUpperCase changed something!!!!!!
+                        ElementType.valueOf(resultSet.getString( 2).toUpperCase(Locale.ROOT)),
                         resultSet.getDouble( 3)
                 ) );
             }
@@ -709,6 +706,7 @@ public class MTCGDaoDb implements Dao<UserData, CardData>{
         return coins;
     }
 
+    //TODO maybe remove password from getUser?
     @Override
     public User getUser(String username) {
         String userName = "", password = "";
