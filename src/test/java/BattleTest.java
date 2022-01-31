@@ -23,7 +23,6 @@ public class BattleTest {
     ArrayList<Card> deck1 = new ArrayList<>();
     ArrayList<Card> deck2 = new ArrayList<>();
     BattleLogic battleLogic;
-    //TODO create 2 Test users with decks and test battle logic + elo stats, etc...
 
 
     @Test
